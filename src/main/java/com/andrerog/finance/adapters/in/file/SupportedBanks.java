@@ -1,4 +1,4 @@
-package com.andrerog.adapters.file;
+package com.andrerog.finance.adapters.in.file;
 
 public enum SupportedBanks {
     SANTANDER,

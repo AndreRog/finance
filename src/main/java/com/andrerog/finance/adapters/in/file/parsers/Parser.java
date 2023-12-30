@@ -1,6 +1,6 @@
-package com.andrerog.adapters.file.parsers;
+package com.andrerog.finance.adapters.in.file.parsers;
 
-import com.andrerog.core.FinancialRecord;
+import com.andrerog.finance.core.FinancialRecord;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.util.List;

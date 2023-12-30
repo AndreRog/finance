@@ -1,4 +1,4 @@
-package com.andrerog.core;
+package com.andrerog.finance.core;
 
 import java.util.Date;
 

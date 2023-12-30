@@ -1,9 +1,7 @@
-package com.andrerog.adapters.file.parsers;
+package com.andrerog.finance.adapters.in.file.parsers;
 
-import com.andrerog.adapters.file.ExcelReader;
-import com.andrerog.core.FinancialRecord;
+import com.andrerog.finance.core.FinancialRecord;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.slf4j.Logger;
@@ -15,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/** * Santander Excel Parser to a standard format fro the application to use.
+/** * Santander Excel Parser to a standard format for the application to use.
  *
  * The excel columns are as follow:
  * Data Operação,Data valor,Descrição,Montante( EUR ),Saldo Contabilístico( EUR )
@@ -34,11 +32,10 @@ public class SantanderParser implements Parser {
             row_counter++;
 
             // skip header rows
-            if(row_counter <= 6){
+            if(row_counter <= 6 || row == null || row.getCell(0) == null){
                 continue;
             }
 
-            System.out.println(row.getCell(0));
             try {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -47,22 +44,24 @@ public class SantanderParser implements Parser {
                 String description = row.getCell(2).getStringCellValue();
                 double finalBalance = row.getCell(4).getNumericCellValue();
 
-                new FinancialRecord(
+                financialRecords.add(new FinancialRecord(
                         transactionDate,
                         valueSpent,
                         description,
                         finalBalance
-                );
+                ));
 
-                final String debugString = String.format("transactionDate: %s\nvalueSpent: %s\ndescription: %s\nfinalBalance: %s\n",
-                        formatter.format(transactionDate), valueSpent,
-                        description, finalBalance);
-                logger.info(debugString );
-
+//                final String debugString = String.format("transactionDate: %s\nvalueSpent: %s\ndescription: %s\nfinalBalance: %s\n",
+//                        formatter.format(transactionDate), valueSpent,
+//                        description, finalBalance);
+//                logger.debug(debugString );
+//
+//
             } catch (ParseException e) {
                 logger.error("Error parsing date from Santander Excel", e);
             }
         }
-        return null;
+
+        return financialRecords;
     }
 }
