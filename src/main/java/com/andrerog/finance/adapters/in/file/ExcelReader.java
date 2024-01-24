@@ -41,11 +41,8 @@ public class ExcelReader implements TransactionsReader {
     public List<FinancialRecord> read(InputStream input, SupportedBanks strategy) throws IOException {
         logger.info("Parser strategy is: {}", strategy.toString());
 
-        BufferedReader fileReader = new BufferedReader(new
-                InputStreamReader(input, StandardCharsets.UTF_8));
-        //System.out.println(input);
-
-        try {
+        try(BufferedReader fileReader = new BufferedReader(new
+                InputStreamReader(input, StandardCharsets.UTF_8))) {
             HSSFWorkbook workbook = new HSSFWorkbook(input);
 
             switch (strategy) {
@@ -59,7 +56,8 @@ public class ExcelReader implements TransactionsReader {
         } catch (IOException ex ) {
             logger.error(ex.getMessage());
             logger.error("Error reading from file \n ", ex);
-        }
+        };
+        //System.out.println(input);
         return null;
     }
 }

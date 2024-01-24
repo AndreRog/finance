@@ -18,5 +18,5 @@ $$ LANGUAGE plpgsql;
 
 -- Create the trigger
 CREATE TRIGGER set_timestamps_trigger
-BEFORE INSERT OR UPDATE ON transaction
+BEFORE INSERT OR UPDATE ON bank_transaction
 FOR EACH ROW EXECUTE FUNCTION set_timestamps();

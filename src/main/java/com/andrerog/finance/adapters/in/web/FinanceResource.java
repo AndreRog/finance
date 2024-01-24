@@ -1,15 +1,19 @@
 package com.andrerog.finance.adapters.in.web;
 
-import com.andrerog.finance.core.FinancialRecord;
+import com.andrerog.finance.adapters.in.file.SupportedBanks;
 import com.andrerog.finance.core.FinancialSummary;
 import com.andrerog.finance.domain.finance.CreateFinancialRecordsRequest;
 import com.andrerog.finance.domain.finance.CreateFinancialReport;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.jboss.resteasy.reactive.RestForm;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStream;
 
 
 @Path("/finance")
@@ -25,8 +29,8 @@ public class FinanceResource {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(@BeanParam CreateFinancialRecordsRequest createFinancialRecordsRequest) throws IOException {
-        FinancialSummary financialSummary = this.createFinancialReport.execute(createFinancialRecordsRequest);
+    public Response post(@RestForm("type") SupportedBanks type, @RestForm("file") InputStream file) throws IOException {
+        FinancialSummary financialSummary = this.createFinancialReport.execute(new CreateFinancialRecordsRequest(type, file));
         return Response.ok(financialSummary).build();
     }
 }
