@@ -7,10 +7,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /** * Santander Excel Parser to a standard format for the application to use.
@@ -21,7 +23,6 @@ import java.util.List;
 public class SantanderParser implements Parser {
 
     private static final Logger logger = LoggerFactory.getLogger(SantanderParser.class);
-
 
     @Override
     public List<FinancialRecord> getFinancialRecords(HSSFWorkbook workbook) {
@@ -37,9 +38,13 @@ public class SantanderParser implements Parser {
             }
 
             try {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                OffsetDateTime transactionDate = LocalDate .parse(
+                        row.getCell(0).toString(),
+                        formatter
+                ).atStartOfDay().atOffset(ZoneOffset.UTC);
 
-                Date transactionDate = formatter.parse(row.getCell(0).toString());
+                transactionDate = transactionDate.withOffsetSameInstant(ZoneOffset.UTC);
                 double valueSpent = row.getCell(3).getNumericCellValue();
                 String description = row.getCell(2).getStringCellValue();
                 double finalBalance = row.getCell(4).getNumericCellValue();
@@ -57,7 +62,7 @@ public class SantanderParser implements Parser {
 //                logger.debug(debugString );
 //
 //
-            } catch (ParseException e) {
+            } catch (DateTimeParseException e) {
                 logger.error("Error parsing date from Santander Excel", e);
             }
         }
