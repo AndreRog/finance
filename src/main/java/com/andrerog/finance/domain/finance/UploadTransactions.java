@@ -12,9 +12,9 @@ import java.util.List;
 
 public class UploadTransactions {
 
+    private final Logger LOG = Logger.getLogger(UploadTransactions.class);
     private final TransactionsReader transactionsReader;
     private final TransactionDataService transactionDataService;
-    private final Logger LOG = Logger.getLogger(UploadTransactions.class);
 
     public UploadTransactions(final TransactionsReader transactionsReader,
                               final TransactionDataService transactionDataService) {

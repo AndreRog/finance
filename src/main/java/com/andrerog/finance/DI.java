@@ -4,6 +4,7 @@ import com.andrerog.finance.adapters.in.file.ExcelReader;
 import com.andrerog.finance.adapters.in.file.TransactionsReader;
 import com.andrerog.finance.adapters.out.postgres.TransactionStore;
 import com.andrerog.finance.domain.finance.CreateFinancialReport;
+import com.andrerog.finance.domain.finance.ListBankTransactions;
 import com.andrerog.finance.domain.finance.UploadTransactions;
 import com.andrerog.finance.ports.TransactionDataService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -38,5 +39,11 @@ public class DI {
     UploadTransactions uploadTransactions(final TransactionsReader transactionsReader,
                                           final TransactionDataService transactionDataService) {
         return new UploadTransactions(transactionsReader, transactionDataService);
+    }
+
+    @ApplicationScoped
+    @Produces
+    ListBankTransactions listBankTransactions(final TransactionDataService transactionDataService) {
+        return new ListBankTransactions(transactionDataService);
     }
 }

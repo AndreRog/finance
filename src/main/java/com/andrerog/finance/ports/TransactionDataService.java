@@ -9,4 +9,6 @@ public interface TransactionDataService {
     FinancialRecord insertTransaction(final FinancialRecord transaction);
 
     void insertTransactions(final List<FinancialRecord> transactions);
+
+    List<FinancialRecord> list();
 }
