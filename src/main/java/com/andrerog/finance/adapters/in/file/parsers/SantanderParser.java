@@ -39,7 +39,7 @@ public class SantanderParser implements Parser {
 
             try {
                 final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                OffsetDateTime transactionDate = LocalDate .parse(
+                OffsetDateTime transactionDate = LocalDate.parse(
                         row.getCell(0).toString(),
                         formatter
                 ).atStartOfDay().atOffset(ZoneOffset.UTC);

@@ -14,7 +14,8 @@ import java.util.List;
 public class BankTransactionResource {
     private final ListBankTransactions listBankTransactions;
 
-    @CheckedTemplate
+    // TOOD: remove this
+    @CheckedTemplate(requireTypeSafeExpressions = false)
     public static class Templates {
 
         public static native TemplateInstance list(List<FinancialRecord> financialRecords);

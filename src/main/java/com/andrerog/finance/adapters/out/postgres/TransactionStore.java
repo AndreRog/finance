@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.sql.BatchUpdateException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,11 +86,13 @@ public class TransactionStore implements TransactionDataService {
     public List<FinancialRecord> list() {
         final Result<BankTransactionRecord> fetch = dataSource.selectFrom(BankTransaction.BANK_TRANSACTION).fetch();
 
-       return fetch.stream().map(transaction -> new FinancialRecord(
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        return fetch.stream().map(transaction -> new FinancialRecord(
                transaction.getDate(),
-               transaction.getValue().floatValue(),
+               transaction.getValue().doubleValue(),
                transaction.getDescription(),
-               transaction.getBalance().floatValue()
+               transaction.getBalance().doubleValue()
        )).collect(Collectors.toList());
     }
 }
