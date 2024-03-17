@@ -58,4 +58,12 @@ public class FinanceResource {
         List<FinancialRecord> records = this.listBankTransactions.execute();
         return Response.ok(records).build();
     }
+
+    @GET
+    @Path("/banks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response banks() throws IOException {
+        List<String> banks = List.of("SANTANDER", "CAIXA GERAL DEPOSITOS", "ACTIV BANK");
+        return Response.ok(banks).build();
+    }
 }
