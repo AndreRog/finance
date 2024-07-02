@@ -35,7 +35,7 @@ public class CreateFinancialReport {
                         .min(Comparator.comparing(FinancialRecord::date));
 
         return new FinancialSummary(
-                max.get().finalBalance() - min.get().finalBalance(),
+                max.get().finalBalance() - min.get().finalBalance(), // this names what is this lol
                 max.get().finalBalance()
         );
 

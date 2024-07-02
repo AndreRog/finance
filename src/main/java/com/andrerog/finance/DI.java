@@ -3,10 +3,12 @@ package com.andrerog.finance;
 import com.andrerog.finance.adapters.in.file.ExcelReader;
 import com.andrerog.finance.adapters.in.file.TransactionsReader;
 import com.andrerog.finance.adapters.out.postgres.TransactionStore;
+import com.andrerog.finance.adapters.out.txClassifier.TransactionClassifier;
 import com.andrerog.finance.domain.bank.ListBankTypes;
 import com.andrerog.finance.domain.finance.CreateFinancialReport;
 import com.andrerog.finance.domain.finance.ListBankTransactions;
 import com.andrerog.finance.domain.finance.UploadTransactions;
+import com.andrerog.finance.ports.Classifier;
 import com.andrerog.finance.ports.TransactionDataService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -37,9 +39,16 @@ public class DI {
 
     @ApplicationScoped
     @Produces
+    Classifier TransactionClassifier() {
+        return new TransactionClassifier();
+    }
+
+    @ApplicationScoped
+    @Produces
     UploadTransactions uploadTransactions(final TransactionsReader transactionsReader,
-                                          final TransactionDataService transactionDataService) {
-        return new UploadTransactions(transactionsReader, transactionDataService);
+                                          final TransactionDataService transactionDataService,
+                                          final Classifier classifier) {
+        return new UploadTransactions(transactionsReader, transactionDataService, classifier);
     }
 
     @ApplicationScoped
