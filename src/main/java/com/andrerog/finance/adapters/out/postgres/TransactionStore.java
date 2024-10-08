@@ -64,7 +64,7 @@ public class TransactionStore implements TransactionDataService {
             final int[] inserted = dataSource.batchInsert(transactionRecords).execute();
 
             if (inserted.length != transactions.size()){
-                logger.error("Some error occurred with transactions insert");
+                logger.error("Error occurred on batch transactions insert");
             }
         } catch (IntegrityConstraintViolationException ex) {
             if (ex.getCause() instanceof BatchUpdateException &&

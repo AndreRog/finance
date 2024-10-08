@@ -5,7 +5,6 @@ import com.andrerog.finance.adapters.in.file.TransactionsReader;
 import com.andrerog.finance.adapters.out.postgres.TransactionStore;
 import com.andrerog.finance.adapters.out.txClassifier.TransactionClassifier;
 import com.andrerog.finance.domain.bank.ListBankTypes;
-import com.andrerog.finance.domain.finance.CreateFinancialReport;
 import com.andrerog.finance.domain.finance.ListBankTransactions;
 import com.andrerog.finance.domain.finance.UploadTransactions;
 import com.andrerog.finance.ports.Classifier;
@@ -24,11 +23,6 @@ public class DI {
     @Produces
     TransactionsReader transactionsReader() {
         return new ExcelReader();
-    }
-    @ApplicationScoped
-    @Produces
-    CreateFinancialReport createFinancialReport(final TransactionsReader transactionsReader) {
-        return new CreateFinancialReport(transactionsReader);
     }
 
     @ApplicationScoped
